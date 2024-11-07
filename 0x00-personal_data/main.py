@@ -3,11 +3,10 @@
 Main file
 """
 
+hash_password = __import__('encrypt_password').hash_password
+is_valid = __import__('encrypt_password').is_valid
 
-import logging
-
-get_logger = __import__('filtered_logger').get_logger
-PII_FIELDS = __import__('filtered_logger').PII_FIELDS
-
-print(get_logger.__annotations__.get('return'))
-print("PII_FIELDS: {}".format(len(PII_FIELDS)))
+password = "MyAmazingPassw0rd"
+encrypted_password = hash_password(password)
+print(encrypted_password)
+print(is_valid(encrypted_password, password))
