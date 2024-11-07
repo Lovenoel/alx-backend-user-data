@@ -9,6 +9,7 @@ from typing import List, Tuple
 import os
 import mysql.connector
 from mysql.connector import connection
+import mysql.connector
 
 
 def get_db() -> connection.MySQLConnection:
@@ -76,3 +77,22 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+def main() -> None:
+    """ Main function to retrieve and log users' data with redaction. """
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users;")
+
+    logger = get_logger()
+    for row in cursor:
+        message = "; ".join([f"{key}={value}" for key, value in row.items()])
+        logger.info(message)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
