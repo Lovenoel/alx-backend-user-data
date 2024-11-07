@@ -6,6 +6,19 @@ Module for filtering PII fields in log messages.
 import re
 import logging
 from typing import List, Tuple
+import os
+import mysql.connector
+from mysql.connector import connection
+
+
+def get_db() -> connection.MySQLConnection:
+    """ Connect to the MySQL database using environment variables. """
+    return mysql.connector.connect(
+        host=os.getenv("PERSONAL_DATA_DB_HOST", "localhost"),
+        user=os.getenv("PERSONAL_DATA_DB_USERNAME", "root"),
+        password=os.getenv("PERSONAL_DATA_DB_PASSWORD", ""),
+        database=os.getenv("PERSONAL_DATA_DB_NAME")
+    )
 
 
 def filter_datum(
