@@ -4,6 +4,7 @@ Module for filtering PII fields in log messages.
 """
 
 import re
+import logging
 from typing import List
 
 
@@ -27,3 +28,21 @@ def filter_datum(
             pattern,
             lambda x: x.group().split('=')[0] + '=' + redaction,
             message)
+
+
+class RedactingFormatter(logging.Formatter):
+    """ Redacting Formatter class for log messages. """
+
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR = ";"
+
+    def __init__(self, fields: List[str]):
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+        self.fields = fields
+
+    def format(self, record: logging.LogRecord) -> str:
+        """ Apply filter_datum to the log record message. """
+        return filter_datum(
+                self.fields, self.REDACTION,
+                super().format(record), self.SEPARATOR)
