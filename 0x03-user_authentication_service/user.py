@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SQLAlchemy model named User that uses mapping declaration 
+SQLAlchemy model named User that uses mapping declaration
 """
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base

@@ -8,6 +8,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 from user import Base, User
 
+
 class DB:
     """Database class for handling user operations"""
 
@@ -22,7 +23,7 @@ class DB:
         self.__session.add(user)
         self.__session.commit()
         return user
-    
+
     def find_user_by(self, **kwargs) -> User:
         """Find user by specified attributes"""
         query = self.__session.query(User)
@@ -34,7 +35,7 @@ class DB:
         if user is None:
             raise NoResultFound()
         return user
-    
+
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update user attributes"""
         user = self.find_user_by(id=user_id)

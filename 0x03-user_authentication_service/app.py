@@ -26,10 +26,11 @@ def register_user():
         return jsonify({"email": user.email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
-    
+
 
 @app.route('/sessions', methods=['POST'])
 def login():
+    """Login a registered user"""
     email = request.form.get('email')
     password = request.form.get('password')
     if not AUTH.valid_login(email, password):
@@ -42,6 +43,7 @@ def login():
 
 @app.route('/sessions', methods=['DELETE'])
 def logout():
+    """Logs out a user"""
     session_id = request.cookies.get("session_id")
     user = Auth.get_user_from_session_id(session_id)
     if user is None:
@@ -52,6 +54,7 @@ def logout():
 
 @app.route('/profile', methods=['GET'])
 def profile():
+    """Gets a user's profile"""
     session_id = request.cookies.get("session_id")
     user = Auth.get_user_from_session_id(session_id)
     if user is None:
@@ -61,6 +64,7 @@ def profile():
 
 @app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
+    """Gets user password reset token."""
     email = request.form.get("email")
     try:
         reset_token = Auth.get_reset_password_token(email)
@@ -71,6 +75,7 @@ def get_reset_password_token():
 
 @app.route('/reset_password', methods=['PUT'])
 def update_password():
+    """Updates user password"""
     email = request.form.get("email")
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
