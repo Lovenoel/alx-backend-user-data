@@ -2,7 +2,7 @@
 """
 A module that handles basic authentication.
 """
-from typing import TypeVar, Optional
+from typing import TypeVar, Optional, Tuple
 import base64
 from models.user import User
 from api.v1.auth.auth import Auth
@@ -47,7 +47,7 @@ class BasicAuth(Auth):
         except Exception:
             return None
 
-    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> Optional[tuple[str, str]]:
+    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> Optional[Tuple[str, str]]:
         """
         Extracts the email and password from a decoded Base64 authorization string.
 
