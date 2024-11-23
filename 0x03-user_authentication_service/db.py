@@ -42,7 +42,7 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """Find user by specified attributes"""
-        query = self.__session.query(User)
+        query = self._session.query(User)
         for key, value in kwargs.items():
             if not hasattr(User, key):
                 raise InvalidRequestError()
