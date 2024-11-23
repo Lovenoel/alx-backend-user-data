@@ -26,10 +26,8 @@ class DB:
         """Memoized session object
         """
         if self.__session is None:
-            print("Initializing session...")
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
-            print("Session initialized.")  # Confirm initialization
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
@@ -59,4 +57,4 @@ class DB:
             if not hasattr(user, key):
                 raise ValueError()
             setattr(user, key, value)
-        self.__session.commit()
+        self._session.commit()
