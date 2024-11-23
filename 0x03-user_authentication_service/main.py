@@ -11,20 +11,30 @@ BASE_URL = "http://127.0.0.1:5000"  # Replace with your app's base URL
 
 def register_user(email: str, password: str) -> None:
     """Test user registration."""
-    response = requests.post(f"{BASE_URL}/users", data={"email": email, "password": password})
+    response = requests.post(
+            f"{BASE_URL}/users", data={"email": email, "password": password})
     assert response.status_code == 200
-    assert response.json() == {"email": email, "message": "user created"}
+    assert response.json() == {
+            "email": email, "message": "user created"}
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
     """Test login with the wrong password."""
-    response = requests.post(f"{BASE_URL}/sessions", data={"email": email, "password": password})
+    response = requests.post(
+            f"{BASE_URL}/sessions",
+            data={
+                "email": email,
+                "password": password})
     assert response.status_code == 401
 
 
 def log_in(email: str, password: str) -> str:
     """Test login with the correct credentials."""
-    response = requests.post(f"{BASE_URL}/sessions", data={"email": email, "password": password})
+    response = requests.post(
+            f"{BASE_URL}/sessions",
+            data={
+                "email": email,
+                "password": password})
     assert response.status_code == 200
     assert "session_id" in response.cookies
     return response.cookies.get("session_id")
@@ -34,6 +44,7 @@ def profile_unlogged() -> None:
     """Test accessing profile when not logged in."""
     response = requests.get(f"{BASE_URL}/profile")
     assert response.status_code == 403
+
 
 def profile_logged(session_id: str) -> None:
     """Test accessing profile when logged in."""
@@ -52,13 +63,15 @@ def log_out(session_id: str) -> None:
 
 def reset_password_token(email: str) -> str:
     """Test generating a reset password token."""
-    response = requests.post(f"{BASE_URL}/reset_password", data={"email": email})
+    response = requests.post(
+            f"{BASE_URL}/reset_password", data={"email": email})
     assert response.status_code == 200
     assert "reset_token" in response.json()
     return response.json().get("reset_token")
 
 
-def update_password(email: str, reset_token: str, new_password: str) -> None:
+def update_password(
+        email: str, reset_token: str, new_password: str) -> None:
     """Test updating the user's password."""
     response = requests.put(
         f"{BASE_URL}/reset_password",
@@ -66,6 +79,7 @@ def update_password(email: str, reset_token: str, new_password: str) -> None:
     )
     assert response.status_code == 200
     assert response.json() == {"message": "Password updated"}
+
 
 # Test script execution
 EMAIL = "guillaume@holberton.io"
