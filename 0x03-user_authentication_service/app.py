@@ -44,7 +44,7 @@ def login():
 def logout():
     """Logs out a user"""
     session_id = request.cookies.get("session_id")
-    user = Auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
     if user is None:
         abort(403)
     Auth.destroy_session(user.id)
@@ -55,7 +55,7 @@ def logout():
 def profile():
     """Gets a user's profile"""
     session_id = request.cookies.get("session_id")
-    user = Auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
     if user is None:
         abort(403)
     return jsonify({"email": user.email})
@@ -66,7 +66,7 @@ def get_reset_password_token():
     """Gets user password reset token."""
     email = request.form.get("email")
     try:
-        reset_token = Auth.get_reset_password_token(email)
+        reset_token = AUTH.get_reset_password_token(email)
         return jsonify({"email": email, "reset_token": reset_token})
     except ValueError:
         abort(403)
@@ -79,7 +79,7 @@ def update_password():
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
     try:
-        Auth.update_password(reset_token, new_password)
+        AUTH.update_password(reset_token, new_password)
         return jsonify({"email": email, "message": "Password updated"})
     except ValueError:
         abort(403)
