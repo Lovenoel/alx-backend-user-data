@@ -16,7 +16,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -26,15 +26,18 @@ class DB:
         """Memoized session object
         """
         if self.__session is None:
+            print("Initializing session...")
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
+            print("Session initialized.")  # Confirm initialization
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """Add a user to the database"""
         user = User(email=email, hashed_password=hashed_password)
-        self.__session.add(user)
-        self.__session.commit()
+        print("Attempting to add user...")
+        self._session.add(user)
+        self._session.commit()
         return user
 
     def find_user_by(self, **kwargs) -> User:
