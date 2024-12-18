@@ -20,6 +20,7 @@ class Auth:
             if normalized_path == excluded_path.rstrip('/'):
                 return False
         return True
+
     def authorization_header(self, request=None) -> str:
         """ Returns the Authorization header if present """
         if request is None or 'Authorization' not in request.headers:
