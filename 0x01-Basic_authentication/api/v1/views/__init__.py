@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """ DocDocDocDocDocDoc
 """
-<<<<<<< HEAD
-=======
 
->>>>>>> e45d4a6324ee468d08fd7a2ab5e26377a0a5120e
+from flask import Blueprint
+
+app_views = Blueprint("app_views", __name__, url_prefix="/api/v1")
+
 from api.v1.views.index import *
 from api.v1.views.users import *
 

@@ -27,7 +27,8 @@ else:
 @app.before_request
 def before_request():
     """ Before request handler to check for authorization """
-    if auth is not None and request.path not in ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']:
+    if auth is not None and request.path not in [
+            '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']:
         if auth.authorization_header(request) is None:
             abort(401)
         if auth.current_user(request) is None:

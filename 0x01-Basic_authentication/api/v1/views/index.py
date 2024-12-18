@@ -40,6 +40,6 @@ def unauthorized() -> str:
 def forbidden() -> str:
     """ GET /api/v1/forbidden
     Returns:
-      - a 403 error by using abort
+     - a 403 error by using abort
     """
     abort(403)
